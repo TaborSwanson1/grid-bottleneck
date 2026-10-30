@@ -78,7 +78,9 @@ def quarterly(facts: dict, tag: str) -> pd.Series:
         prev = rows[(rows.start == start) & rows.days.between(80, 100)]
         prev_end, prev_val = (prev.end.iloc[0], prev.val.iloc[0]) if len(prev) else (None, None)
         for _, r in grp.iterrows():
-            if prev_end is not None and r.end not in out:
+            # Only difference adjacent periods; a skipped quarter would make a 6-month "quarter"
+            adjacent = prev_end is not None and 80 <= (r.end - prev_end).days <= 100
+            if adjacent and r.end not in out:
                 out[r.end] = r.val - prev_val
             prev_end, prev_val = r.end, r.val
     s = pd.Series(out).sort_index()
