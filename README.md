@@ -23,7 +23,7 @@ Source: USITC Harmonized Tariff Schedule, checked October 30, 2026. The general 
 | What | Source | Status |
 |---|---|---|
 | Transformer producer prices | FRED: WPU11740999, PCU335311335311 | Day 2 |
-| Imports by country, value and quantity | US Census international trade API (free key needed) | Day 3 |
+| Imports by country: value, duties and quantity | USITC DataWeb export | Day 3 |
 | Hyperscaler capex | SEC EDGAR XBRL API | Day 6 |
 | Grid interconnection queues | LBNL "Queued Up" | Day 8 |
 | Electricity demand and prices | EIA | Day 9 |
