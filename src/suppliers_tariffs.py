@@ -24,13 +24,20 @@ EUROPE = {
     "Hungary", "Romania", "Slovenia", "Slovakia", "Switzerland", "United Kingdom",
     "Denmark", "Norway", "Ireland", "Greece", "Bulgaria", "Serbia",
 }
-# Fixed order and colors; color follows the group, not its rank
+# The three biggest European suppliers get their own group
+EUROPE_SPLIT = ("Austria", "Netherlands", "Germany")
+SOLO = ("Mexico", "South Korea", "Brazil", "China") + EUROPE_SPLIT
+# Fixed order and colors; color follows the group, not its rank. Stack order
+# keeps Europe together. Validated: adjacent pairs pass CVD and normal vision.
 GROUPS = [
     ("Mexico", "#2a78d6"),
     ("South Korea", "#eb6834"),
-    ("Europe", "#1baf7a"),
-    ("Brazil", "#eda100"),
-    ("China", "#e87ba4"),
+    ("Brazil", "#1baf7a"),
+    ("China", "#eda100"),
+    ("Austria", "#e87ba4"),
+    ("Netherlands", "#008300"),
+    ("Germany", "#6250d6"),
+    ("Other Europe", "#e34948"),
     ("Other", "#a3a3a3"),
 ]
 # Same entity colors as charts/price_index_2019.png
@@ -40,9 +47,9 @@ SIZES = [("small", "Small (≤650 kVA)", "#1baf7a"),
 
 
 def group_of(country: str) -> str:
-    if country in ("Mexico", "South Korea", "Brazil", "China"):
+    if country in SOLO:
         return country
-    return "Europe" if country in EUROPE else "Other"
+    return "Other Europe" if country in EUROPE else "Other"
 
 
 def style(ax, ylabel: str) -> None:
@@ -65,18 +72,26 @@ def supplier_share(d: pd.DataFrame) -> pd.DataFrame:
 def chart_share(share: pd.DataFrame, dest: Path) -> None:
     fig, ax = plt.subplots(figsize=(9, 5.4), dpi=150)
     bottom = pd.Series(0.0, index=share.index)
+    last = share.index[-1]
+    labels = []
     for g, color in GROUPS:
         ax.bar(share.index, share[g], bottom=bottom, color=color, width=0.72,
                edgecolor="white", linewidth=1.5)
-        last = share.index[-1]
-        ax.annotate(f"{g}  {share.loc[last, g]:.0f}%", (last + 0.45, bottom[last] + share.loc[last, g] / 2),
-                    va="center", fontsize=9, color=INK)
+        labels.append([g, color, bottom[last] + share.loc[last, g] / 2])
         bottom += share[g]
+    # Thin segments sit close together; push labels apart so they don't overlap
+    gap = 4.2
+    for i in range(1, len(labels)):
+        labels[i][2] = max(labels[i][2], labels[i - 1][2] + gap)
+    for g, color, y in labels:
+        ax.annotate(f"■ {g}  {share.loc[last, g]:.0f}%", (last + 0.45, y), va="center",
+                    fontsize=9, color=INK)
+        ax.annotate("■", (last + 0.45, y), va="center", fontsize=9, color=color)
     ax.set_xticks(list(share.index))
     ax.set_ylim(0, 100)
     ax.yaxis.set_major_formatter(lambda v, _: f"{v:.0f}%")
     style(ax, "Share of import value")
-    ax.set_title("China supplies about 2% of large US transformer imports. Mexico, Korea and Europe supply most.",
+    ax.set_title("China supplies about 2% of large US transformer imports. Europe's share is shrinking.",
                  loc="left", fontsize=10.5, color=INK)
     ax.text(0, -0.13, "EO 14420 (signed August 26, 2026) lets DOE restrict grid equipment from China and other "
             "\"foreign adversaries.\" This data ends in 2025.", transform=ax.transAxes, fontsize=8, color=INK_2)
