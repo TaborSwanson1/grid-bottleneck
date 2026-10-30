@@ -59,6 +59,7 @@ Notes on the Amazon Q3 2026 call are in `notes/amazon_q3_2026_call.md`. Every ou
 - **Import price per unit is rough.** The largest code covers everything over 100,000 kVA.
 - **Prices are nominal.**
 - **I couldn't tie each 2025 tariff rate to a specific program.** Section 232 covers transformer cores and laminations since August 2025; I found no source on finished units.
+- **Lease notes don't name the end customer.** A big share of the signed leases likely serves a few AI labs, not the companies themselves. Filings show the ties: OpenAI is a Microsoft related party and a "significant customer" of CoreWeave; Amazon expanded a $38B OpenAI deal by $100B; Anthropic committed $110B to Amazon and $114.5B to Google. Oracle reports $664B of remaining performance obligations without naming customers. So the demand is real but concentrated, and partly funded by those labs raising money. xAI is private and doesn't appear in any of these filings.
 - **Companies don't say power is the limit.** Amazon's Q3 2026 call named chips and memory as constraints, not power. The bottleneck case rests on the data above, not on what companies say.
 - **Left out:** Nebius (no recent SEC data), private neoclouds like Lambda and Crusoe, and IREN from the lease chart (it's the landlord in its leases).
 
