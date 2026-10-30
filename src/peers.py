@@ -29,6 +29,10 @@ PEERS = {
     "IREN": ("0001878848", CASH, "Neocloud"),
 }
 
+# IREN splits capex into "property, plant and equipment" and "computer hardware" (GPUs).
+# Only the first is tagged in XBRL, so add the second from the 10-K cash flow statement.
+EXTRA_CASH_CAPEX = {("IREN", "2026-06-30"): 1_335_081_000}  # FY2026 10-K, "Payments for computer hardware"
+
 
 def facts_frame(facts: dict, tag: str) -> pd.DataFrame:
     r = pd.DataFrame(facts["facts"]["us-gaap"][tag]["units"]["USD"])
@@ -82,7 +86,7 @@ def peer_table() -> pd.DataFrame:
         fin_val = fin.get(end)
         rows.append({
             "company": name, "group": group, "ttm_end": end.date(),
-            "cash_capex": series["cash_capex"][end],
+            "cash_capex": series["cash_capex"][end] + EXTRA_CASH_CAPEX.get((name, str(end.date())), 0),
             "finance_leases": 0.0 if fin_val is None else fin_val,
             "finance_missing": fin_val is None,
             "operating_leases": series["operating_leases"][end],
