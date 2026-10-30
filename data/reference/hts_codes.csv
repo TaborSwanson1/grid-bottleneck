@@ -1,0 +1,10 @@
+hts10,hts6,size_group,min_kva_exclusive,max_kva_inclusive,quantity_unit,general_duty
+8504210020,850421,small,,50,No.,Free
+8504210040,850421,small,50,100,No.,Free
+8504210060,850421,small,100,500,No.,Free
+8504210080,850421,small,500,650,No.,Free
+8504220040,850422,medium,650,2500,No.,Free
+8504220080,850422,medium,2500,10000,No.,Free
+8504230041,850423,large,10000,59999,No.,1.6%
+8504230045,850423,large,59999,100000,No.,1.6%
+8504230080,850423,large,100000,,No.,1.6%
