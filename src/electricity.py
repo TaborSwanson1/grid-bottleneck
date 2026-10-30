@@ -18,12 +18,12 @@ from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from style import INK, INK_2, MUTED, GRID
+
 ROOT = Path(__file__).resolve().parent.parent
-plt.rcParams["text.parse_math"] = False
 STATES = {"VA": "Virginia", "TX": "Texas", "AZ": "Arizona", "OR": "Oregon"}
 YEARS = range(2015, 2026)
 BASE = 2019
-INK, INK_2, MUTED, GRID = "#111111", "#555555", "#777777", "#e6e6e6"
 SECTORS = ["res", "com", "ind", "trn", "tot"]
 
 

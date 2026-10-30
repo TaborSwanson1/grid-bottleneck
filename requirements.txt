@@ -1,4 +1,4 @@
-pandas
-openpyxl
-matplotlib
-certifi
+certifi==2026.10.23
+matplotlib==3.11.2
+openpyxl==3.1.5
+pandas==3.1.0

@@ -14,9 +14,10 @@ from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from style import INK, INK_2, MUTED, GRID
+
 ROOT = Path(__file__).resolve().parent.parent
 YEARS = range(2015, 2026)
-INK, INK_2, MUTED, GRID = "#111111", "#555555", "#777777", "#e6e6e6"
 
 EUROPE = {
     "Austria", "Netherlands", "Germany", "Croatia", "Spain", "Poland", "Italy",
@@ -78,11 +79,11 @@ def chart_share(share: pd.DataFrame, dest: Path) -> None:
     style(ax, "Share of import value")
     ax.set_title("China supplies about 2% of large US transformer imports. Mexico, Korea and Europe supply most.",
                  loc="left", fontsize=10.5, color=INK)
-    ax.text(0, -0.13, "EO 14421 (signed August 26, 2026) lets DOE block grid equipment tied to countries under US "
+    ax.text(0, -0.2, "EO 14421 (signed August 26, 2026) lets DOE block grid equipment tied to countries under US\n"
             "arms embargoes, including China. This data ends in 2025.", transform=ax.transAxes, fontsize=8, color=INK_2)
     source(fig, "Source: USITC DataWeb, imports for consumption, HTS 8504.23 (liquid-dielectric transformers "
            "over 10,000 kVA), share of customs value.")
-    fig.subplots_adjust(right=0.8, bottom=0.17)
+    fig.subplots_adjust(right=0.8, bottom=0.22)
     fig.savefig(dest)
 
 

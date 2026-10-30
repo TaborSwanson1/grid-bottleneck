@@ -17,13 +17,13 @@ from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from style import INK, INK_2, MUTED, GRID
+
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "data/raw/lbnl_ix_queue_data_file_thru2025.xlsx"
-plt.rcParams["text.parse_math"] = False
 STATES = {"VA": "Virginia (PJM)", "TX": "Texas (mostly ERCOT)", "AZ": "Arizona (West)", "OR": "Oregon (West)"}
 YEARS = range(2015, 2026)
 TYPES = ["Solar", "Battery", "Wind", "Gas"]  # everything else is "Other"
-INK, INK_2, MUTED, GRID = "#111111", "#555555", "#777777", "#e6e6e6"
 
 
 def load_projects() -> pd.DataFrame:

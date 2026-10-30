@@ -68,18 +68,10 @@ Notes on the Amazon Q3 2026 call are in `notes/amazon_q3_2026_call.md`. Every ou
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 echo 'SEC_USER_AGENT="Your Name you@example.com"' > .env   # the SEC requires contact info
-cd src
-python load_dataweb.py     # needs the DataWeb export in data/raw (see below)
-python prices.py
-python suppliers_tariffs.py
-python capex.py
-python peers.py
-python lease_notes.py      # downloads ~110 filings, a few minutes
-python check_capex.py
-python queues.py
-python electricity.py
-python main_chart.py
+cd src && ../.venv/bin/python run_all.py                   # about 5 minutes; downloads ~110 filings the first time
 ```
+
+`run_all.py` runs every script in order and stops at the first failure. Shared colors and chart styling live in `src/style.py`.
 
 The DataWeb file has to be exported by hand: imports for consumption, HTS items, customs value + calculated duties + first unit of quantity, annual 2015 to 2025, all countries broken out, commodities `850421, 850422, 850423` broken out at 10 digits. Save it as `data/raw/dataweb_hts10.xlsx`.
 

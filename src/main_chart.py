@@ -14,19 +14,18 @@ from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from style import INK, INK_2, MUTED, GRID, CAPEX, PPI, LARGE_UNITS
+
 import capex
 
 ROOT = Path(__file__).resolve().parent.parent
-plt.rcParams["text.parse_math"] = False
 BASE = 2019
 YEARS = range(2019, 2026)
-INK, INK_2, MUTED, GRID = "#111111", "#555555", "#777777", "#e6e6e6"
 
 
 def hyperscaler_capex() -> pd.Series:
     """Calendar-year cash capex for Amazon, Microsoft, Alphabet and Meta combined."""
-    capex.START = "2018-01-01"  # the default starts in 2022
-    q = pd.DataFrame({n: capex.quarterly(capex.company_facts(n, cik), tag)
+    q = pd.DataFrame({n: capex.quarterly(capex.company_facts(n, cik), tag, start="2018-01-01")
                       for n, (cik, tag) in capex.COMPANIES.items()})
     full = q.groupby(q.index.year).count().eq(4).all(axis=1)  # only years with all 16 quarters
     annual = q.groupby(q.index.year).sum().sum(axis=1)
@@ -47,9 +46,9 @@ def build() -> pd.DataFrame:
 
 def chart(d: pd.DataFrame, dest: Path) -> None:
     lines = [
-        ("capex_index", "Big Tech capex", "#2a78d6"),
-        ("ppi_index", "US transformer prices (PPI)", "#eb6834"),
-        ("import_large_index", "Imported large transformers,\nprice per unit", "#1baf7a"),
+        ("capex_index", "Big Tech capex", CAPEX),
+        ("ppi_index", "US transformer prices (PPI)", PPI),
+        ("import_large_index", "Imported large transformers,\nprice per unit", LARGE_UNITS),
     ]
     fig, ax = plt.subplots(figsize=(9.5, 5.6), dpi=150)
     for col, label, color in lines:
@@ -80,6 +79,7 @@ def chart(d: pd.DataFrame, dest: Path) -> None:
 
 if __name__ == "__main__":
     d = build()
+    d.index.name = "year"
     d.round(3).to_csv(ROOT / "data/clean/main_index.csv")
     chart(d, ROOT / "charts/main_chart.png")
     print(d.assign(capex_usd=(d.capex_usd / 1e9).round(1)).round(1).to_string())

@@ -11,6 +11,9 @@ from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from style import PPI, SMALL_UNITS, LARGE_UNITS
+
+
 ROOT = Path(__file__).resolve().parent.parent
 BASE = 2019
 YEARS = range(2015, 2026)  # 2026 import data isn't a full year yet
@@ -56,9 +59,9 @@ def import_indexes(d: pd.DataFrame) -> pd.DataFrame:
 def chart(idx: pd.DataFrame, dest: Path) -> None:
     # The industry PPI is complete; the commodity PPI is missing most of 2023-24
     lines = [
-        ("PCU335311335311", "US producer price index", "#2a78d6"),
-        ("import_small_fixed_mix", "Imported small units (≤650 kVA)", "#1baf7a"),
-        ("import_large_fixed_mix", "Imported large units (>10,000 kVA)", "#eb6834"),
+        ("PCU335311335311", "US producer price index", PPI),
+        ("import_small_fixed_mix", "Imported small units (≤650 kVA)", SMALL_UNITS),
+        ("import_large_fixed_mix", "Imported large units (>10,000 kVA)", LARGE_UNITS),
     ]
     fig, ax = plt.subplots(figsize=(9, 5.2), dpi=150)
     for col, label, color in lines:

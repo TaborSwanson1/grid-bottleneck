@@ -20,6 +20,10 @@ import time
 import urllib.request
 
 import certifi
+import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
+
+import style  # noqa: F401  (turns off math parsing so "$" prints as written)
 import pandas as pd
 
 from capex import user_agent
@@ -107,8 +111,6 @@ def extract(name: str, text: str) -> tuple[float, str] | None:
     return None
 
 def chart(a: "pd.DataFrame", dest: Path) -> None:
-    import matplotlib.pyplot as plt
-    plt.rcParams["text.parse_math"] = False
     order = ["Microsoft", "Meta", "Oracle", "Amazon", "Alphabet", "CoreWeave"]
     a = a.assign(period=pd.to_datetime(a.period))
     fig, axes = plt.subplots(2, 3, figsize=(11, 6), dpi=150, sharey=True, sharex=True)
@@ -122,7 +124,6 @@ def chart(a: "pd.DataFrame", dest: Path) -> None:
         ax.tick_params(colors="#555555", labelsize=8)
         for side in ("top", "right"):
             ax.spines[side].set_visible(False)
-    import matplotlib.dates as mdates
     for ax in axes[:, 0]:
         ax.yaxis.set_major_formatter(lambda v, _: f"${v:.0f}B")
     axes[0, 0].xaxis.set_major_locator(mdates.YearLocator())

@@ -13,10 +13,10 @@ from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 
+import style  # noqa: F401  (turns off math parsing so "$" prints as written)
 from capex import company_facts, LEASE_TAGS
 
 ROOT = Path(__file__).resolve().parent.parent
-plt.rcParams["text.parse_math"] = False
 CASH = "PaymentsToAcquirePropertyPlantAndEquipment"
 PEERS = {
     # name: (cik, cash capex tag, group)

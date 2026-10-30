@@ -16,11 +16,13 @@ import ssl
 import urllib.request
 import certifi
 import pandas as pd
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
+
+from style import INK, INK_2, BLUE, clean_axes, source_note
 
 ROOT = Path(__file__).resolve().parent.parent
 START = "2022-01-01"
-plt.rcParams["text.parse_math"] = False  # "$202B ... $36B" otherwise renders as math
 # Cash flow line "purchases of property and equipment". Amazon tags it differently.
 COMPANIES = {
     "Amazon": ("0001018724", "PaymentsToAcquireProductiveAssets"),
@@ -28,7 +30,6 @@ COMPANIES = {
     "Alphabet": ("0001652044", "PaymentsToAcquirePropertyPlantAndEquipment"),
     "Meta": ("0001326801", "PaymentsToAcquirePropertyPlantAndEquipment"),
 }
-COLORS = {"Amazon": "#2a78d6", "Microsoft": "#eb6834", "Alphabet": "#1baf7a", "Meta": "#6250d6"}
 
 
 def user_agent() -> str:
@@ -55,7 +56,7 @@ def company_facts(name: str, cik: str) -> dict:
     return json.loads(cache.read_text())
 
 
-def quarterly(facts: dict, tag: str) -> pd.Series:
+def quarterly(facts: dict, tag: str, start: str = START) -> pd.Series:
     """Quarterly values from a mix of 3-month, year-to-date and full-year facts.
 
     10-Q cash flow statements are year-to-date: the Q2 filing reports six
@@ -73,9 +74,9 @@ def quarterly(facts: dict, tag: str) -> pd.Series:
     out = {}
     for _, r in rows[rows.days.between(80, 100)].iterrows():
         out[r.end] = r.val
-    for start, grp in rows[rows.days > 100].groupby("start"):
+    for fy_start, grp in rows[rows.days > 100].groupby("start"):
         grp = grp.sort_values("end")
-        prev = rows[(rows.start == start) & rows.days.between(80, 100)]
+        prev = rows[(rows.start == fy_start) & rows.days.between(80, 100)]
         prev_end, prev_val = (prev.end.iloc[0], prev.val.iloc[0]) if len(prev) else (None, None)
         for _, r in grp.iterrows():
             # Only difference adjacent periods; a skipped quarter would make a 6-month "quarter"
@@ -84,30 +85,31 @@ def quarterly(facts: dict, tag: str) -> pd.Series:
                 out[r.end] = r.val - prev_val
             prev_end, prev_val = r.end, r.val
     s = pd.Series(out).sort_index()
-    return s[s.index >= START]
+    return s[s.index >= start]
 
 
 def chart(q: pd.DataFrame, dest: Path) -> None:
-    fig, ax = plt.subplots(figsize=(9, 5), dpi=150)
-    for name in COMPANIES:
+    """One panel per company on a shared scale. Four colored lines fail the colorblind check."""
+    fig, axes = plt.subplots(1, 4, figsize=(11, 4.4), dpi=150, sharey=True)
+    for ax, name in zip(axes, COMPANIES):
         y = q[name] / 1e9
-        ax.plot(y.index, y.values, color=COLORS[name], linewidth=2, marker="o", markersize=4)
-        ax.annotate(f"{name}  ${y.iloc[-1]:.1f}B", (y.index[-1], y.iloc[-1]), xytext=(8, 0),
-                    textcoords="offset points", va="center", fontsize=9, color="#111111")
-    total = q.iloc[-1].sum() / 1e9
-    first = q.iloc[0].sum() / 1e9
-    ax.set_title(f"The four biggest cloud companies spent ${total:.0f}B on capex last quarter, "
-                 f"vs ${first:.0f}B in early 2022", loc="left", fontsize=10.5, color="#111111")
-    ax.set_ylim(bottom=0)
-    ax.yaxis.set_major_formatter(lambda v, _: f"${v:.0f}B")
-    ax.grid(axis="y", color="#e6e6e6", linewidth=0.6)
-    for side in ("top", "right"):
-        ax.spines[side].set_visible(False)
-    ax.tick_params(colors="#555555", labelsize=9)
-    fig.text(0.01, 0.01, "Source: SEC XBRL company facts, cash flow statement purchases of property and "
-             "equipment. Quarters derived from year-to-date filings. Excludes leases.",
-             fontsize=7, color="#777777")
-    fig.subplots_adjust(right=0.8, bottom=0.12)
+        ax.plot(y.index, y.values, color=BLUE, linewidth=2, marker="o", markersize=3)
+        ax.annotate(f"${y.iloc[-1]:.0f}B", (y.index[-1], y.iloc[-1]), xytext=(-4, 6),
+                    textcoords="offset points", ha="right", fontsize=9, color=INK)
+        ax.set_title(name, loc="left", fontsize=10, color=INK)
+        ax.set_xticks(pd.to_datetime(["2022-06-30", "2024-06-30", "2026-06-30"]))
+        ax.xaxis.set_major_formatter(lambda v, _: f"{mdates.num2date(v).year}")
+        clean_axes(ax)
+    axes[0].set_ylim(bottom=0)
+    axes[0].yaxis.set_major_formatter(lambda v, _: f"${v:.0f}B")
+    total, first = q.iloc[-1].sum() / 1e9, q.iloc[0].sum() / 1e9
+    fig.suptitle(f"The four biggest cloud companies spent ${total:.0f}B on capex last quarter, vs ${first:.0f}B in early 2022",
+                 x=0.01, ha="left", fontsize=11, color=INK)
+    fig.text(0.01, 0.9, "Quarterly cash purchases of property and equipment, same scale in every panel.",
+             fontsize=8.5, color=INK_2)
+    source_note(fig, "Source: SEC XBRL company facts, cash flow statements. Quarters derived from year-to-date "
+                "filings. Excludes leases. Amazon's figure is gross of equipment-sale proceeds.")
+    fig.subplots_adjust(left=0.06, right=0.99, top=0.8, bottom=0.12, wspace=0.12)
     fig.savefig(dest)
 
 
