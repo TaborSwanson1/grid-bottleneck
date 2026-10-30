@@ -78,8 +78,8 @@ def chart_share(share: pd.DataFrame, dest: Path) -> None:
     style(ax, "Share of import value")
     ax.set_title("China supplies about 2% of large US transformer imports. Mexico, Korea and Europe supply most.",
                  loc="left", fontsize=10.5, color=INK)
-    ax.text(0, -0.13, "EO 14420 (signed August 26, 2026) lets DOE restrict grid equipment from China and other "
-            "\"foreign adversaries.\" This data ends in 2025.", transform=ax.transAxes, fontsize=8, color=INK_2)
+    ax.text(0, -0.13, "EO 14421 (signed August 26, 2026) lets DOE block grid equipment tied to countries under US "
+            "arms embargoes, including China. This data ends in 2025.", transform=ax.transAxes, fontsize=8, color=INK_2)
     source(fig, "Source: USITC DataWeb, imports for consumption, HTS 8504.23 (liquid-dielectric transformers "
            "over 10,000 kVA), share of customs value.")
     fig.subplots_adjust(right=0.8, bottom=0.17)
