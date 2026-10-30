@@ -79,7 +79,7 @@ RULES = {
     "Meta": [r"lease obligations were approximately " + AMOUNT,
              r"not yet commenced[^$]{0,200}?" + AMOUNT + r"(?: and " + AMOUNT + r")?"],
     # Oracle only states a dollar figure from February 2025 on
-    "Oracle": [r"we had " + AMOUNT + r" of additional lease commitments"],
+    "Oracle": [r"we ha(?:d|ve) " + AMOUNT + r" of additional lease commitments"],
     # Alphabet's 10-Ks split short-term and long-term payments
     "Alphabet": [r"not yet commenced with (?:short-term and long-term )?(?:future )?(?:short-term and long-term )?"
                  r"lease payments of (?:approximately )?" + AMOUNT + r"(?: and " + AMOUNT + r")?",
@@ -127,6 +127,8 @@ def chart(a: "pd.DataFrame", dest: Path) -> None:
         ax.yaxis.set_major_formatter(lambda v, _: f"${v:.0f}B")
     axes[0, 0].xaxis.set_major_locator(mdates.YearLocator())
     axes[0, 0].xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
+    for ax in axes.flat:
+        ax.tick_params(labelbottom=True)  # sharex hides the top row's years otherwise
     fig.suptitle("Signed data center leases that haven't started yet have exploded since 2024",
                  x=0.01, ha="left", fontsize=11.5, color="#111111")
     fig.text(0.01, 0.905, "Future payments on leases signed but not yet on the balance sheet, from each 10-Q and 10-K. "
