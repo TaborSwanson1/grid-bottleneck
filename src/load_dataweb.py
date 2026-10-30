@@ -49,7 +49,8 @@ def load(path: Path) -> pd.DataFrame:
             merged = merged.merge(m[keys + [name]], on=keys, how="outer")
 
     if "hts" in merged.columns:
-        merged["hts"] = merged["hts"].astype(str).str.replace(".", "", regex=False).str.zfill(10)
+        # Excel stores the codes as floats (8.50423e+09), so go through int first
+        merged["hts"] = pd.to_numeric(merged["hts"]).astype("int64").astype(str).str.zfill(10)
         merged["hts6"] = merged["hts"].str[:6]
         ref = pd.read_csv(ROOT / "data/reference/hts_codes.csv", dtype=str)
         sizes = ref.drop_duplicates("hts6").set_index("hts6")["size_group"]
@@ -65,7 +66,7 @@ def load(path: Path) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    src = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "data/raw/DataWeb-Query-Export.xlsx"
+    src = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "data/raw/dataweb_hts10.xlsx"
     out = load(src)
     dest = ROOT / "data/clean/transformer_imports.csv"
     out.to_csv(dest, index=False)
