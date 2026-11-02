@@ -1,0 +1,8 @@
+delivery_year,rto_price_usd_per_mw_day,at_cap,source
+2022/2023,50.00,False,"ICF analysis of the 2023/2024 BRA (prior-year RTO price)"
+2023/2024,34.13,False,"PJM 2023/2024 Base Residual Auction report"
+2024/2025,28.92,False,"PJM 2024/2025 Base Residual Auction report"
+2025/2026,269.92,False,"PJM 2026/2027 BRA report (prior-year price); PJM 2025/2026 BRA presentation"
+2026/2027,329.17,True,"PJM 2026/2027 BRA report, July 22, 2025"
+2027/2028,333.44,True,"PJM 2027/2028 BRA report, December 17, 2025"
+2028/2029,325.00,True,"PJM release, July 14, 2026"

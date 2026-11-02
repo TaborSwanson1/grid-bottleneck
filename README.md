@@ -26,6 +26,14 @@ AI companies are spending record amounts on data centers, but some of that hardw
 
 ![Who supplies large transformers](charts/large_supplier_share.png)
 
+**6. Where the demand is.** Texas added 89 TWh of business electricity use from 2019 to 2025 and Virginia added 29 TWh (+40%), far ahead of every other state. Northern Virginia is the largest data center market; Atlanta now has the most under construction (CBRE). Virginia is the only state where data centers use over 20% of electricity, and EPRI projects 39% to 57% by 2030.
+
+![Where power demand grew](charts/where_power_demand_grew.png)
+
+**7. Why it matters if you don't build data centers: the bill.** Virginia sits in PJM, the grid for 13 states and DC. PJM's capacity price, which pays power plants to be ready at peak, went from $29 per MW-day (2024/25) to $270 (2025/26), then hit the price cap three auctions in a row. PJM's market monitor attributes 38% of the latest auction's $16.4B cost to data center load. Household electricity prices in most PJM states rose 18% to 43% from 2024 to 2026 (January to August), against 11% for the US and 3% to 9% in data center states outside PJM.
+
+![Who pays](charts/who_pays.png)
+
 ## Data
 
 | What | Source | Script |
@@ -37,6 +45,7 @@ AI companies are spending record amounts on data centers, but some of that hardw
 | Check of SEC data against filings | Cash flow statements in the same filings | `check_capex.py` |
 | Grid interconnection queues | LBNL Queued Up 2026 edition (data through 2025), CC BY 4.0 | `queues.py` |
 | Electricity sales and prices by state | EIA-861M monthly | `electricity.py` |
+| Where demand grew; household prices | EIA-861M; PJM auction prices in `data/reference/pjm_capacity_prices.csv` | `where_and_who.py` |
 | Headline chart | All of the above | `main_chart.py` |
 
 Notes on the Amazon Q3 2026 call are in `notes/amazon_q3_2026_call.md`. Every outside number I cite is checked in `notes/fact_check.md`.
@@ -58,6 +67,7 @@ Notes on the Amazon Q3 2026 call are in `notes/amazon_q3_2026_call.md`. Every ou
 - **Lead times come from surveys** (Wood Mackenzie). I don't have my own lead-time data.
 - **Import price per unit is rough.** The largest code covers everything over 100,000 kVA.
 - **Prices are nominal.**
+- **Power demand growth isn't all data centers.** Texas and North Dakota also include crypto mining and oil field electrification. The PJM household price comparison shows timing, not proof of cause; state rules and other costs move bills too.
 - **I couldn't tie each 2025 tariff rate to a specific program.** Section 232 covers transformer cores and laminations since August 2025; I found no source on finished units.
 - **Lease notes don't name the end customer.** A big share of the signed leases likely serves a few AI labs, not the companies themselves. Filings show the ties: OpenAI is a Microsoft related party and a "significant customer" of CoreWeave; Amazon expanded a $38B OpenAI deal by $100B; Anthropic committed $110B to Amazon and $114.5B to Google. Oracle reports $664B of remaining performance obligations without naming customers. So the demand is real but concentrated, and partly funded by those labs raising money. xAI is private and doesn't appear in any of these filings.
 - **Companies don't say power is the limit.** Amazon's Q3 2026 call named chips and memory as constraints, not power. The bottleneck case rests on the data above, not on what companies say.

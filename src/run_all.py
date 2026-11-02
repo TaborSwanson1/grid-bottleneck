@@ -22,6 +22,7 @@ STEPS = [
     "check_capex.py",
     "queues.py",
     "electricity.py",
+    "where_and_who.py",
     "main_chart.py",
 ]
 

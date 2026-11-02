@@ -58,6 +58,18 @@ Every "reported" number in the project plan, checked against the original source
 | Google commitment $114.5B, 2026 to 2033 | Confirmed | About $114.5B, April 2026 to July 2033 |
 | Total commitments $417B to $637B | Partly confirmed | ~$417B of future minimum payments on new lease and compute deals. $637B not found |
 
+## Added November 2, 2026: where and who pays
+
+| Claim | Status | What the source says | Source |
+|---|---|---|---|
+| PJM RTO capacity price: $50.00 (22/23), $34.13 (23/24), $28.92 (24/25), $269.92 (25/26), $329.17 (26/27), $333.44 (27/28), $325.00 (28/29) | Confirmed via PJM reports quoted in search results | 26/27 onward cleared at the cap. pjm.com was unreachable from my machine, so check the PDFs directly before citing | PJM BRA reports; PJM July 14, 2026 release; ICF for 22/23 |
+| 2019/20 to 2021/22 prices | **Cut** | Couldn't confirm RTO-wide figures | none |
+| Market monitor: data centers drove 63% of the 2025/26 increase | Secondary | Via IEEFA; a model estimate | IEEFA |
+| Market monitor: data centers are 38% ($6.3B) of the 2028/29 auction's $16.4B | Secondary | Via Utility Dive | Utility Dive |
+| Northern Virginia under construction 2,420 MW; Atlanta 2,882 MW (H1 2026) | Secondary | CBRE H1 2026 via press release coverage | CBRE; Data Center Frontier |
+| Virginia only state over 20%; 39% to 57% by 2030 | Confirmed | EPRI Powering Intelligence update (in `data/raw/epri`) | EPRI |
+| Virginia 25.6% in 2023 | Secondary | From EPRI's 2024 paper, via coverage | E&E News |
+
 ## Sources
 
 - [Wood Mackenzie: Transformer troubles (Aug 13, 2025)](https://www.woodmac.com/ja/news/opinion/transformer-troubles-manufacturing-and-policy-constraints-hit-us-transformer-supply/)
@@ -72,4 +84,15 @@ Every "reported" number in the project plan, checked against the original source
 - [Sidley: DOE revokes prohibition order (Apr 2021)](https://www.sidley.com/en/insights/newsupdates/2021/04/department-of-energy-revokes-prohibition-order)
 - [Gadget Review: Amazon warehousing chips it can't power (Oct 21, 2026)](https://www.gadgetreview.com/amazon-is-warehousing-billions-in-nvidia-ai-chips-it-cannot-yet-power-up)
 - [TIKR: what Amazon's Oct 29 call has to prove](https://www.tikr.com/blog/some-of-amazons-new-ai-servers-are-reportedly-waiting-on-power-heres-what-october-29-has-to-prove)
+- [PJM 2026/2027 BRA report](https://www.pjm.com/-/media/DotCom/markets-ops/rpm/rpm-auction-info/2026-2027/2026-2027-bra-report.pdf)
+- [PJM 2027/2028 BRA report](https://www.pjm.com/-/media/DotCom/markets-ops/rpm/rpm-auction-info/2027-2028/2027-2028-bra-report.pdf)
+- [PJM 2028/2029 BRA results report](https://www.pjm.com/-/media/DotCom/markets-ops/rpm/rpm-auction-info/2028-2029/2028-2029-bra-results-report.pdf)
+- [PJM 2024/2025 BRA report](https://www.pjm.com/-/media/DotCom/markets-ops/rpm/rpm-auction-info/2024-2025/2024-2025-base-residual-auction-report.ashx)
+- [ICF: PJM 2023/2024 BRA analysis](https://icf.com/insights/energy/pjm-2023-2024-bra-analysis)
+- [IEEFA: data center growth spurs PJM capacity prices](https://ieefa.org/resources/projected-data-center-growth-spurs-pjm-capacity-prices-factor-10)
+- [Utility Dive: market monitor on data centers and the capacity auction](https://www.utilitydive.com/news/data-centers-pjm-capacity-auction/808951/)
+- [CBRE: demand outpaces record construction](https://www.cbre.com/press-releases/north-american-data-center-demand-continues-to-outpace-supply-despite-record-construction)
+- [Data Center Frontier: CBRE H1 2026](https://www.datacenterfrontier.com/site-selection/news/55401462/cbre-record-data-center-construction-fails-to-ease-capacity-crunch)
+- [EPRI Powering Intelligence update (PDF)](https://restservice.epri.com/publicattachment/97025)
+- [E&E News: data centers' share of US electricity](https://eenews.net/articles/data-centers-share-of-us-electricity-seen-doubling-by-2030)
 - [Anthropic S-1 on SEC EDGAR](https://www.sec.gov/Archives/edgar/data/0002130357/000162828026067168/anthropicpbc-sx1.htm)
