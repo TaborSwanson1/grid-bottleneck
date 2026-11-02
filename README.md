@@ -34,6 +34,16 @@ AI companies are spending record amounts on data centers, but some of that hardw
 
 ![Who pays](charts/who_pays.png)
 
+**8. The overbuild risk.** Projects are committed on today's demand, delivered years later, and locked in for 15 to 20 years, while developers all pile in at once. Three tests from the filings (details in `notes/overbuild_signals.md`):
+
+- **Commitments are outrunning deliveries at four of six companies.** Signed-but-not-started lease payments are now 4.5x the leases already running at Alphabet (0.2x in 2022), 3.0x at Meta, 2.8x at Microsoft and 1.2x at Amazon. Oracle (4.6x) and CoreWeave (1.2x) are falling as buildings get handed over.
+- **A few buyers carry much of it.** OpenAI was about 11% of Microsoft's revenue last quarter. OpenAI and Anthropic deals add up to roughly 40% of Amazon's $578B contracted backlog. CoreWeave's top three customers are 72% of revenue. Anthropic owes about $417B in new commitments, about 9x its yearly revenue at its current pace, "regardless of actual usage."
+- **The market already shifts mid-build.** Microsoft reportedly cancelled about 200 MW of leases in early 2025, then signed a record backlog. Amazon cut server lives from 6 to 5 years. On-demand H100 rental prices fell from over $7 to about $3 an hour, though one-year contract prices rose in 2026.
+
+None of this says a crash is coming. Demand today is strong, which is also how the early part of a build cycle looks. It shows the setup: long build times, a shared rush, and a few buyers on the hook.
+
+![Signed leases waiting vs running](charts/lease_backlog_ratio.png)
+
 ## Data
 
 | What | Source | Script |
@@ -42,6 +52,7 @@ AI companies are spending record amounts on data centers, but some of that hardw
 | US transformer producer prices | BLS via FRED: PCU335311335311 (WPU11740999 has gaps in 2023 to 2024) | `prices.py` |
 | Capex and new lease assets | SEC XBRL company facts | `capex.py`, `peers.py` |
 | Signed leases not yet started | Lease notes in every 10-Q and 10-K since 2022 | `lease_notes.py` |
+| Signed leases waiting vs running | Lease maturity tables in the same filings | `backlog.py` |
 | Check of SEC data against filings | Cash flow statements in the same filings | `check_capex.py` |
 | Grid interconnection queues | LBNL Queued Up 2026 edition (data through 2025), CC BY 4.0 | `queues.py` |
 | Electricity sales and prices by state | EIA-861M monthly | `electricity.py` |

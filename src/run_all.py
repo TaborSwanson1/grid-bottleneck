@@ -19,6 +19,7 @@ STEPS = [
     "capex.py",
     "peers.py",
     "lease_notes.py",
+    "backlog.py",
     "check_capex.py",
     "queues.py",
     "electricity.py",
