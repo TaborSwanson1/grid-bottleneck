@@ -38,12 +38,29 @@ def footer(fig, text: str) -> None:
 
 def cover(waiting: pd.Series) -> plt.Figure:
     fig = plt.figure(figsize=(7.2, 9), dpi=150)
-    fig.text(0.07, 0.72, f"${waiting.iloc[-1] / 1000:.1f} trillion", fontsize=54, color=BLUE, weight="bold")
-    fig.text(0.07, 0.655, "of data center leases that Microsoft, Meta,\nAlphabet and Amazon have signed but\nhaven't started yet.",
-             fontsize=19, color=INK, va="top", linespacing=1.3)
-    fig.text(0.07, 0.43, f"Two years ago it was ${waiting.loc['2024-06-30']:.0f} billion.", fontsize=19, color=INK)
-    fig.text(0.07, 0.3, "Is that demand, or a pile-up?\nWhat 4 years of 10-Q and 10-K lease notes show.",
-             fontsize=14, color=INK_2, linespacing=1.4)
+    fig.add_artist(plt.Rectangle((0, 0.965), 1, 0.035, color=BLUE, transform=fig.transFigure))
+    fig.text(0.07, 0.915, "DATA CENTER LEASES", fontsize=12, color=BLUE, weight="bold", va="top")
+    for i, line in enumerate(["Big Tech has signed $1 trillion", "of data center leases that", "haven't started yet."]):
+        fig.text(0.07, 0.87 - i * 0.05, line, fontsize=27, color=INK, weight="bold", va="top")
+    fig.text(0.07, 0.675, "Is that demand, or a pile-up?", fontsize=17, color=INK_2, va="top")
+
+    # Two bars: then vs now
+    then, now = waiting.loc["2024-06-30"], waiting.iloc[-1]
+    ax = fig.add_axes([0.07, 0.2, 0.86, 0.4])
+    ax.bar([0, 1], [then, now], color=[US_GRAY, BLUE], width=0.62)
+    ax.text(0, then + 25, f"${then:.0f}B", ha="center", fontsize=22, color=INK, weight="bold")
+    ax.text(1, now + 25, f"${now / 1000:.1f}T", ha="center", fontsize=22, color=BLUE, weight="bold")
+    ax.set_xticks([0, 1], ["June 2024", "Sept 2026"], fontsize=14, color=INK)
+    ax.set_ylim(0, now * 1.18)
+    ax.set_yticks([])
+    for side in ("top", "right", "left"):
+        ax.spines[side].set_visible(False)
+    ax.spines["bottom"].set_color(INK_2)
+    ax.tick_params(axis="x", length=0, pad=8)
+
+    fig.text(0.07, 0.115, "Microsoft, Meta, Alphabet and Amazon. From every 10-Q and 10-K since 2022.",
+             fontsize=10.5, color=INK_2)
+    fig.text(0.93, 0.045, "Swipe  \u2192", fontsize=13, color=BLUE, weight="bold", ha="right", va="bottom")
     footer(fig, "Tabor Swanson  |  github.com/TaborSwanson1/grid-bottleneck")
     return fig
 
