@@ -25,6 +25,7 @@ STEPS = [
     "electricity.py",
     "where_and_who.py",
     "main_chart.py",
+    "carousel.py",
 ]
 
 if __name__ == "__main__":
